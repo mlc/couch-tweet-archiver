@@ -27,7 +27,9 @@ Getting Started
    
  * Run
        node couch-tweet-archiver.js
-   and hope for the best.
+   and hope for the best. The initial run should fetch all your tweets
+   (up to Twitter's paging limit of 3200); future runs should fetch
+   only newer tweets.
    
  * Use [futon] or your own code to create views and query the
    database. Or just keep it forever.
