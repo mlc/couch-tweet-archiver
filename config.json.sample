@@ -1,0 +1,13 @@
+{
+  "oauth": {
+    "consumer_key": "XXXXXXXXXXXXXXXXXXXXX",
+    "consumer_secret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "token_secret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  "couch": {
+      "host": "localhost",
+      "port": 5984,
+      "db": "tweets"
+  }
+}
