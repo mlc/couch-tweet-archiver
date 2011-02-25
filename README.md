@@ -22,7 +22,7 @@ Getting Started
 
  * Create a [Twitter app].
  
- * Copy @config.json.sample@ to @config.json@ and fill in the values
+ * Copy `config.json.sample` to `config.json` and fill in the values
    appropriately.
    
  * Run
@@ -41,8 +41,8 @@ Here are some things that you could work on, if you're so inclined.
    own tweets; you could easily modify the code to archive someone
    else's.
    
- * Similarly, you could modify the @trim_user@, @include_rts@, and
-   @include_entities@ parameters to your liking.
+ * Similarly, you could modify the `trim_user`, `include_rts`, and
+   `include_entities` parameters to your liking.
    
  * There could be a library of useful standard views, or even some
    CouchDB shows and lists for a usable web UI.
