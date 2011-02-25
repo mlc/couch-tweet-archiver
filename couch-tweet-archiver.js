@@ -119,7 +119,13 @@ function couchdb_put(doc_id, doc, success_callback, error_callback) {
     }
   });
 
-  request.write(JSON.stringify(doc));
+  request.write(JSON.stringify(doc, function(key, val) {
+    if (typeof val === 'function') {
+      return val.toString();
+    } else {
+      return val;
+    }
+  }));
   request.end();
 }
 
@@ -132,26 +138,22 @@ function create_util_view(callback) {
     language: "javascript",
     views: {
       max_id: {
-        map: [
-          "function(doc) {",
-          "  if (doc && doc.id_str)",
-          "    emit(true, doc.id_str);",
-          "}"
-        ].join("\n"),
-        reduce: [
-          "function(keys, values) {",
-          "  var max = values[0], maxlen = max.length;",
-          "  for(var i = 1, len = values.length; i < len; ++i) {",
-          "    var val = values[i], vallen = val.length;",
-          "    /* Javascript can't deal with Twitter's 64-bit ids, so use strings & compare by length then value. */",
-          "    if (vallen > maxlen || (vallen === maxlen && val > max)) {",
-          "      max = val;",
-          "      maxlen = vallen;",
-          "    }",
-          "  }",
-          "  return max;",
-          "}"
-        ].join("\n")
+        map: function(doc) {
+          if (doc && doc.id_str)
+            emit(true, doc.id_str);
+        },
+        reduce: function(keys, values) {
+          var max = values[0], maxlen = max.length;
+          for(var i = 1, len = values.length; i < len; ++i) {
+            var val = values[i], vallen = val.length;
+            /* Javascript can't deal with Twitter's 64-bit ids, so use strings & compare by length then value. */
+            if (vallen > maxlen || (vallen === maxlen && val > max)) {
+              max = val;
+              maxlen = vallen;
+            }
+          }
+          return max;
+        }
       }
     }
   };
