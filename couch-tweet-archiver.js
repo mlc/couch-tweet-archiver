@@ -198,23 +198,50 @@ function dump_ratelimit(response) {
 }
 
 /**
+ * Makes sure that a couchdb database exists, creating it if needed.
+ */
+function ensure_database_exists(callback) {
+  var options = {
+    host: config.couch.host,
+    port: config.couch.port,
+    path: '/' + config.couch.db,
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": user_agent,
+      "Accept": "application/json"
+    }
+  };
+  http.request(options, function(response) {
+    /* CouchDB returns 201 if the DB was created or 412 if it already exists. */
+    if (response.statusCode === 201 || response.statusCode === 412) {
+      response.on('end', callback);
+    } else {
+      util.error("couldn't make database; request returned " + response.statusCode);
+    }
+  }).end();
+}
+
+/**
  * main() starts here, I guess.
  * We take much advantage of node.js's habit of quitting only when there is
  * no work left to do.
  */
-get_max_id(function(result) {
-  var since_id = undefined;
-  if (result.rows && result.rows && result.rows[0].value) {
-    since_id = result.rows[0].value;
-  }
-
-  oa.get('http://api.twitter.com/1/account/verify_credentials.json?include_entities=true', config.oauth.token, config.oauth.token_secret, function(error, data, response) {
-    if (error) {
-      util.error(error);
-      process.exit(1);
+ensure_database_exists(function() {
+  get_max_id(function(result) {
+    var since_id = undefined;
+    if (result.rows && result.rows && result.rows[0].value) {
+      since_id = result.rows[0].value;
     }
-    var user = JSON.parse(data);
-    dump_ratelimit(response);
-    fetch(user.id_str, user.status.id_str, 1, since_id);
+
+    oa.get('http://api.twitter.com/1/account/verify_credentials.json?include_entities=true', config.oauth.token, config.oauth.token_secret, function(error, data, response) {
+      if (error) {
+        util.error(error);
+        process.exit(1);
+      }
+      var user = JSON.parse(data);
+      dump_ratelimit(response);
+      fetch(user.id_str, user.status.id_str, 1, since_id);
+    });
   });
 });

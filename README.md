@@ -47,6 +47,9 @@ Here are some things that you could work on, if you're so inclined.
  * There could be a library of useful standard views, or even some
    CouchDB shows and lists for a usable web UI.
    
+ * The code could be extended to work even when CouchDB is not in
+   “Admin Party” mode.
+   
  * You could make this all somehow actually useful.
  
 License
