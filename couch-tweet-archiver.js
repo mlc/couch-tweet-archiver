@@ -72,9 +72,7 @@ function fetch(user, max_id, page, since_id) {
       util.debug(statuses.length + " statuses received");
       // we could probably replace this with CouchDB's bulk documents API.
       // if you care that much, do it yourself and send me a patch.
-      for (var i = 0, len = statuses.length; i < len; ++i) {
-        store_status(statuses[i]);
-      }
+      _.each(statuses, store_status);
       if (statuses.length > 0)
         fetch(user, max_id, page + 1, since_id);
     }
@@ -230,7 +228,7 @@ function ensure_database_exists(callback) {
 ensure_database_exists(function() {
   get_max_id(function(result) {
     var since_id = undefined;
-    if (result.rows && result.rows && result.rows[0].value) {
+    if (result.rows && result.rows && result.rows[0]) {
       since_id = result.rows[0].value;
     }
 
