@@ -20,7 +20,7 @@ var _ = require('underscore')._,
     http = require('http'),
     fs = require('fs');
 
-var user_agent = "couch-tweet-archiver/0.01 node.js/" + process.version + " (http://vermicel.li/)",
+var user_agent = "couch-tweet-archiver/0.01 node.js/" + process.version + " (https://github.com/mlc/couch-tweet-archiver)",
 
     config = JSON.parse(fs.readFileSync("config.json")),
 
