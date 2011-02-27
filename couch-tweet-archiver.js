@@ -141,16 +141,8 @@ function create_util_view(callback) {
             emit(true, doc.id_str);
         },
         reduce: function(keys, values) {
-          var max = values[0], maxlen = max.length;
-          for(var i = 1, len = values.length; i < len; ++i) {
-            var val = values[i], vallen = val.length;
-            /* Javascript can't deal with Twitter's 64-bit ids, so use strings & compare by length then value. */
-            if (vallen > maxlen || (vallen === maxlen && val > max)) {
-              max = val;
-              maxlen = vallen;
-            }
-          }
-          return max;
+          return values.map(function(v) { return [ v.length, v ]; })
+              .reduce(function(a, b) { return (a > b) ? a : b; })[1];
         }
       }
     }
