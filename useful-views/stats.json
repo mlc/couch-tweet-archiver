@@ -1,0 +1,18 @@
+{
+  "_id":"_design/stats",
+  "language":"javascript",
+  "views": {
+    "mentioned_user": { 
+      "map": "function(doc) {\n  if (doc.entities) {\n    doc.entities.user_mentions.forEach(function(mention) {\n      emit(mention.screen_name, null);\n    });\n  }\n}",
+      "reduce":"_count"
+    },
+    "source": {
+      "map": "function(doc) {\n  var re = /^<a href.*>(.*)<\\/a>$/;\n\n  if (doc.source) {\n    var match = doc.source.match(re);\n    emit(match ? match[1] : doc.source, null)\n  }\n}",
+      "reduce":"_count"
+    },
+    "place": {
+      "map":"function(doc) {\n  if (doc.place) {\n    emit(doc.place.full_name, null);\n  }\n}",
+      "reduce":"_count"
+    }
+  }
+}
