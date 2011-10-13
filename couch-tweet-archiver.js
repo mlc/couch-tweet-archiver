@@ -109,7 +109,7 @@ function couchdb_put(doc_id, doc, success_callback, error_callback) {
       if (error_callback) {
         error_callback(response);
       } else {
-        util.error("ick, storing status " + status.id_str + " failed, HTTP response " + response.statusCode);
+        util.error("ick, storing status " + doc_id + " failed, HTTP response " + response.statusCode);
         response.on('data', function(chunk) {
           util.error(chunk);
         });
