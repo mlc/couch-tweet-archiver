@@ -12,9 +12,7 @@ Getting Started
 
  * Install node.js, version 0.3 or later. (It's probably possible to be
    compatible with version 0.2 with only minor code changes.) Then,
-   install [npm]. Do
-       npm install underscore oauth
-   to get the needed modules.
+   install [npm]. Do `npm install underscore oauth` to get the needed modules.
 
  * Install CouchDB. I think version 0.8 or later should be okay, but
    haven't tried with anything before 1.0. Create a CouchDB database
@@ -25,8 +23,7 @@ Getting Started
  * Copy `config.json.sample` to `config.json` and fill in the values
    appropriately.
    
- * Run
-       node couch-tweet-archiver.js
+ * Run `node couch-tweet-archiver.js`
    and hope for the best. The initial run should fetch all your tweets
    (up to Twitter's paging limit of 3200); future runs should fetch
    only newer tweets.
