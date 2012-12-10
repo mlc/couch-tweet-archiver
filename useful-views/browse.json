@@ -1,0 +1,9 @@
+{
+  "_id":"_design/browse",
+  "language":"javascript",
+  "views": {
+    "by_id": {
+      "map": "function(doc) {\n  if (doc && doc.id && doc.text) {\n    var text;\n    if (doc.retweeted_status) {\n      text = \"(rt\";\n      if (doc.entities && doc.entities.user_mentions && doc.entities.user_mentions[0] && doc.entities.user_mentions[0].screen_name)\n        text = text + \" @\" + doc.entities.user_mentions[0].screen_name;\n      text = text + \") \" + doc.retweeted_status.text;\n    } else {\n      text = doc.text;\n    }\n    emit(doc.id, text);\n  }\n}"
+    }
+  }
+}
