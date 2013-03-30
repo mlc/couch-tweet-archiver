@@ -43,7 +43,7 @@ var user_agent = "couch-tweet-archiver/0.01 node.js/" + process.version + " (htt
  * Fetch a page of tweets.
  */
 function fetch(user, max_id, page, since_id) {
-  var url = ['http://api.twitter.com/1/statuses/user_timeline.json'];
+  var url = ['http://api.twitter.com/1.1/statuses/user_timeline.json'];
   url.push('?user_id=');
   url.push(user);
   url.push('&max_id=');
@@ -184,7 +184,7 @@ function get_max_id(callback) {
 }
 
 function dump_ratelimit(response) {
-  util.debug('ratelimit: ' + response.headers['x-ratelimit-remaining'] + ' / ' + response.headers['x-ratelimit-limit'] + ' (reset in ' + (response.headers['x-ratelimit-reset'] - Math.floor(Date.now() / 1000)) + ')' );
+  util.debug('ratelimit: ' + response.headers['x-rate-limit-remaining'] + ' / ' + response.headers['x-rate-limit-limit'] + ' (reset in ' + (response.headers['x-rate-limit-reset'] - Math.floor(Date.now() / 1000)) + ')' );
 }
 
 /**
@@ -224,7 +224,7 @@ ensure_database_exists(function() {
       since_id = result.rows[0].value;
     }
 
-    oa.get('http://api.twitter.com/1/account/verify_credentials.json?include_entities=true', config.oauth.token, config.oauth.token_secret, function(error, data, response) {
+    oa.get('http://api.twitter.com/1.1/account/verify_credentials.json?include_entities=true', config.oauth.token, config.oauth.token_secret, function(error, data, response) {
       if (error) {
         util.error(error);
         process.exit(1);
